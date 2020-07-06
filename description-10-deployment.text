@@ -48,7 +48,7 @@ npm run start -> boom
 heroku create prisma-graphql-backend
 
 ➜ heroku config:set PRISMA_ENDPOINT=https://tarang-blog-app-5dfeada7e0.herokuapp.com/tarang-sachdev-blog-app/prod
-➜ heroku config:set PRISMA_SECRET=anjdmehldfljfkd
+➜ heroku config:set PRISMA_SECRET=piojen899@nhghashgvd
 
 
 heroku config
