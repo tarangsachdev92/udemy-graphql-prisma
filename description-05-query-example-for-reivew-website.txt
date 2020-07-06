@@ -1,0 +1,70 @@
+1.
+# Write your query or mutation here
+mutation {
+  createBook(data: { title: "Rest", author: "Tarang", isbn: "abc" }){
+    id title author isbn reviews{
+      id text rating
+    }
+  }
+}
+
+2.
+mutation{
+  createUser(data:{username:"sleepyguy"}){
+    id username
+  }
+}
+
+3.
+query{
+  users{
+    username id 
+  }
+}
+
+4. 
+
+# query{
+#   books{
+#     id title author isbn reviews{
+#       id text rating author{username id}
+#     }
+#   }
+# }
+
+query{
+  reviews{
+    id text
+  }
+}
+
+5.
+mutation {
+  createReview(
+    data: {
+      rating: 4
+      book: { connect: { id: "ckc1pr78s003t0733qh6lsk1l" } }
+      author: { connect: { id: "ckc1pswhz004j0733qcqgd5tr" } }
+    }
+  ) {
+    id
+    text
+    rating
+    author {
+      username
+    }
+  }
+}
+
+6.
+mutation {
+  deleteBook(where: { id: "ckc1pr78s003t0733qh6lsk1l" }){
+    id
+  }
+}
+
+# mutation {
+#   deleteUser(where: { id: "ckc1psrhm004b0733v3cttyam" }){
+#     id
+#   }
+# }

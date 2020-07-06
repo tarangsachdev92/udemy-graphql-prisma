@@ -1,0 +1,81 @@
+create getUserId in utils and check authentication there
+
+for locking down mutaiton for ex i can see only my posts or my profile 
+
+for ex if I am logged in then i can create post
+ createPost(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request);
+        // console.log(userId)
+        return prisma.mutation.createPost({
+            data: {
+                title: args.data.title,
+                body: args.data.body,
+                published: args.data.published,
+                author: {
+                    connect: { id: userId }
+                }
+            }
+        }, info)
+    },
+
+    we remove author from the post and allow to pass userId from loggendIn users
+    so only if user token is valid then post can be created under that user only
+
+    now for update post we should give access to update post of user's self post 
+
+    for ex
+    async updatePost(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request);
+
+        const postExists = await prisma.exists.Post({
+            id: args.id,
+            author: {
+                id: userId
+            }
+        })
+
+        if (!postExists) {
+            throw new Error('Unable to update post')
+        }
+
+        return prisma.mutation.updatePost({
+            where: {
+                id: args.id
+            },
+            data: args.data
+        }, info)
+    },
+
+    above user is authnticated and we check if post is exists and the loggendIn user(userId) is the same as author then and only we can give access
+    to update that post 
+    same for delete post and create comment and update comment and delete comment 
+
+
+
+section 74/75- locking downquery 
+
+myPost will only give u=loggedInUserPost whethere it is published  or not
+
+myPosts(parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
+
+        const opArgs = {
+            where: {
+                author: {
+                    id: userId
+                }
+            }
+        };
+        const { query } = args;
+
+        if (query) {
+            opArgs.where.OR = [{
+                title_contains: query
+            }, {
+                body_contains: query
+            }]
+        }
+
+        return prisma.query.posts(opArgs, info)
+    },
+

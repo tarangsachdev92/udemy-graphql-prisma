@@ -1,0 +1,23 @@
+# 1. SET_NULL [default] and 2. CASCADE
+
+type Book {
+  id: ID! @id @unique
+  title: String!
+  author: String!
+  isbn: String
+  reviews: [Review!]! @relation(name: "ReivewToBook", onDelete: CASCADE)
+}
+
+type User {
+  id: ID! @id @unique
+  username: String! @unique
+  reviews: [Review!]! @relation(name: "ReivewToUser", onDelete: CASCADE)
+}
+
+type Review {
+  id: ID! @id @unique
+  text: String
+  rating: Int!
+  book: Book! @relation(name: "ReivewToBook", onDelete: SET_NULL)
+  author: User! @relation(name: "ReivewToUser", onDelete: SET_NULL)
+}

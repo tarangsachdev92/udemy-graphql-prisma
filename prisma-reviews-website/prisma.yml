@@ -1,0 +1,6 @@
+# endpoint service name to default and stage name to default,
+# so under schema we can see default$default for the pgAdmin database
+# here reivews is service and default is stage
+
+endpoint: http://localhost:4466/reviews/default
+datamodel: datamodel.prisma

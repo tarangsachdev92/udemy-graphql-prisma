@@ -1,0 +1,77 @@
+create postgress server(db) form heroku 
+install pgadmin
+configure heroku postgress db in pgAdmin 
+install docker commuinity edition for mac
+run docker
+
+now go to prisma.io
+
+prisma.io
+prisma.io/docs/
+
+prisma init prisma(any name) (it is not working for 1.12.0 so we install npm i -g prisma@1.34.10 )
+
+two option will appear on above command
+
+1. Use existing database      Connect to existing database - select that option because we alreday have created that
+2. Create new database       Set up a local database using Docker 
+
+after that 
+
+? What kind of database do you want to deploy to? (Use arrow keys)
+ MySQL             MySQL compliant databases like MySQL or MariaDB 
+❯ PostgreSQL        PostgreSQL database 
+
+  we will select postgresSQL
+
+3 question 
+Does your database contain existing data? (Use arrow keys)
+  No 
+❯ Yes (experimental - Prisma migrations not yet supported) 
+
+we give Yes
+
+now next question is about connection 
+? Enter database host (localhost) -> ec2-34-230-231-71.compute-1.amazonaws.com
+
+Enter database port 5432
+
+? Enter database user -> mfslwgrhrutdmn
+? Enter database password -> 30ee3a412c292054c394718fcb04d38ba2ddec6be7c844c567560acbab2dbc4d
+? Enter database name -> da0vl4eb8o3jn6
+? Use SSL? (Y/n) -> Y
+
+// based on the version of prisma we have one question 
+? select the programming language for the generated prisma client
+ Prisma Typescript Client 
+ Prisma Flow Client 
+ Prisma Javascript Client 
+ Prisma Go Client 
+ > Don't Generate -> select that
+
+select Don't generated 
+
+? Enter name of existing schema -> schema.graphql (not asked in latest version so ok if you don't see it 
+                                                   and if you see it give name of the schema for ex -> schema.graphql )
+
+it created 3 files in prisma folder and also give the steps to actully things sets up
+
+1.datamodel.graphql -> same as schema.graphql - prisma uses this to determine our db structure ->
+ so graphql type definition end up changing the strcuture of our db looks like
+
+2.docker-compose.yml -> this file will startup the docker container
+
+there is a property -> "schema: schema.graphql" -> we need to remove that and add new property "ssl: true"
+
+3.prisma.yml -> 
+
+to deploy 
+steps 
+1. Open folder: cd prisma
+2. Start your Prisma server: docker-compose up -d
+3. Deploy your Prisma service: prisma deploy
+
+==== then go to http://localhost:4466/ ====  => grpahql playgorund
+
+4. Read more about Prisma server:
+http://bit.ly/prisma-server-overview

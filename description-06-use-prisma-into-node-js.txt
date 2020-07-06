@@ -1,0 +1,58 @@
+import prisma into the index js file and set up into context
+
+context: {
+        db, pubsub, prisma
+}
+
+npm run start and http://localhost:4000/
+
+
+const Query = {
+        users(parent, args, { prisma }, info) {
+        const opArgs = {}
+            if (args.query) 
+            { 
+                opArgs.where = {
+                        OR: [{
+                                name_contains: args.query
+                                },
+                                {
+                                    email_contains: args.query
+                                }
+                            ]
+                        }
+                }
+            return prisma.query.users(opArgs, info) }
+}
+
+
+const Mutation = {
+        async createUser(parent, args, { prisma }, info) {
+        const emailTaken = await prisma.exists.User({ email: args.data.email
+        if (emailTaken) {       
+            throw new Error('Email taken')
+        }
+
+        return prisma.mutation.createUser({ data: args.data }, info) }
+}
+
+const Subscription = {
+    comment: {
+        subscribe(parent, { postId }, { prisma }, info){ 
+            return prisma.subscription.comment({
+                where: {
+                    node: {
+                        post: {
+                            id: postId
+                            } 
+                         }
+                    }
+            }, info)
+        }
+    }
+}
+
+type CommentSubscriptionPayload {
+    mutation: MutationType!
+    node: Comment
+}

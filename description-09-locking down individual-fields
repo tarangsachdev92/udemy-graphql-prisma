@@ -1,0 +1,103 @@
+
+video 75/76/77
+
+for ex 
+we only want to give email value to the query if user is logged in means 
+1. for me query, email field will be value (because we not provide info property for the second argument) (because we don't want 
+to give posts and comments details to the user when)
+2. for users query, other than logged in user we want to give null value for the email(here we provide info because we also want to give 
+   detail of the posts and comments)
+
+that can be done by setting resolver for the field 
+for ex for user email we can set
+
+import getUserId from '../utils/getUserId';
+
+const User = {
+    email(parent, args, { request }, info) {
+        const userId = getUserId(request, false);
+        // for users query if we don't pass id as a output field than for all users email will be null 
+        // for me query we always have id because we are not passing info object for the second argument
+        // if we don't pass info->it will give all scaler value (in which id is always there)
+        // console.log(parent);
+        if (userId && userId === parent.id) {
+            return parent.email
+        } else {
+            return null
+        }
+    },
+}
+
+export { User as default };
+
+so if we query like below 
+query {
+  users(query: "") {
+    email
+  }
+} 
+
+the actual query exculated is 
+users(parent, args, { prisma }, info) {
+        const opArgs = {};
+        .......
+        ......
+        ....
+        return prisma.query.users(opArgs, info)
+},
+here we pass info so for email resolver for parent it only have email not id so
+
+ if (userId && userId === parent.id) {
+            return parent.email
+ }
+ this condition not exculated and we get email: null for all users , but we should have email value for the user which is
+currently loggedIn
+
+so what is solution 
+fragment is the solution
+
+fragment is nothing but the reusabel way to define a selection set
+for setting up the fragment for the id to get parent.id for the user eveyr time in email resolver we should convert
+our email funciton to the email object like below 
+previous:
+email(parent, args, { request }, info) {
+    ....    
+    },
+
+now :
+email: {
+        fragment: 'fragment userId on User {id}',
+        resolve(parent, args, { request }, info) {
+          ...
+          ..
+        }
+    }
+
+but that is not all 
+for allowing fragment we should set up some things into the constuctor function for the prisma and graphql server
+that is 
+import { extractFragmentReplacements } from 'prisma-binding'
+
+and do code in resolvers/index file
+
+const fragmentReplacements = extractFragmentReplacements(resolvers) and  
+import it into index.js and prisma.js file 
+
+
+const server = new GraphQLServer({
+    typeDefs: './src/schema.graphql', // relative to the root application folder(where the pacakge.json there) 
+    resolvers,
+    context(request) {
+        return {
+            db, pubsub, prisma, request
+        }
+    },
+    fragmentReplacements
+})
+
+const prisma = new Prisma({
+    typeDefs: 'src/generated/prisma.graphql',
+    endpoint: 'http://localhost:4466',
+    secret: 'thisismysecrettext',
+    fragmentReplacements
+})

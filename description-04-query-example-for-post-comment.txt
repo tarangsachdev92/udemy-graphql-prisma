@@ -1,0 +1,104 @@
+1.
+query {
+  users {
+    name id email posts{
+      id title
+    }
+  }
+}
+
+
+2.
+# mutation{
+#   createUser(data:{name:"tarang" email:"tarangsachdev@gmail.com"}){
+#     id name
+#   }
+# }
+
+mutation{
+  updateUser(where:{
+    id:"ckc0iyejf00pq0820z72j0x1y"
+  },data:{
+    name:"shaym parekh" email:"parekhshyam007@gmail.com"
+  }){
+    name id
+  }
+}
+
+3.
+mutation{
+  deleteUser(where:{id:"ckc0iyejf00pq0820z72j0x1y"}){
+    id
+  }
+}
+
+4. 
+mutation {
+  createPost(
+    data: {
+      title: "this is the first title"
+      body: "body of the post"
+      published: true
+      author: { connect: { id: "ckc0j0mbx00rt0820ugu07cip" } }
+    }
+  ) {
+    body
+    id
+    published
+    title
+    author {
+      name
+      id
+    }
+  }
+}
+
+
+5.
+
+mutation {
+  updatePost(
+    data: { published:true }
+    where: { id: "ckbyvk5m500ai0820lgp4iwi4" }
+  ) {
+    id
+    title
+    body
+    published
+  }
+}
+
+6.
+mutation {
+  createComment(
+    data: {
+      text: "This is the comment"
+      author: { connect: { id: "ckc0j0mbx00rt0820ugu07cip" } }
+      post: { connect: { id: "ckc0j293w00tk0820060hsyy9" } }
+    }
+  ) {
+    id
+    text
+    author {
+      name
+      id
+    }
+    post {
+      title
+    }
+  }
+}
+
+7
+query{
+  comments{
+    text id author{id name} post{title}
+  }
+} 
+
+8
+query{
+  posts{
+    id title body author {id name}
+  }
+}

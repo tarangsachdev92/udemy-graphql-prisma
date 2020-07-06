@@ -1,0 +1,48 @@
+Heroku -> database/docker-container/nodejs
+Prisma Cloud -> manage heroku prisma instance
+
+1.production database -> heroku
+2.host our prisma docker container - prisma cloud -> create server and database (heroku default)
+3.host our node.js application
+
+
+for host node js app
+1.git 
+2.heroku
+
+npm i -g heroku
+
+
+server.start({ port: process.env.PORT || 4000 }, () => {
+    console.log('server is up and running')
+})
+
+replace start command with dev for dev purpos, because start command run when app deploy to heroku
+so no need to run nodemon on production
+
+"start": "",
+"dev": "nodemon src/index.js --ext js,graphql --exec babel-node",
+
+now for start command to run on heroku we must use env-cmd to load env file 
+
+npm i env-cmd@8.0.2
+
+"start": "env-cmd ./config/prod.env node dist/index.js",
+"heroku-postbuild":"babel src --out-dir dist --copy-files",
+"dev": "env-cmd ./config/dev.env nodemon src/index.js --ext js,graphql --exec babel-node",
+
+npm run start gives an error => 
+
+so we install
+
+npm i @babel/polyfill@7.0.0
+
+now in index.js 
+at the top of our any code we need to import that
+
+import '@babel/polyfill';
+
+
+npm run heroku-postbuild
+        and
+npm run start -> boom

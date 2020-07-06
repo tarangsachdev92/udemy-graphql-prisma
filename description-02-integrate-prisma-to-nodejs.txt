@@ -1,0 +1,65 @@
+video 50 - integrate prisma into nodejs 
+
+npm i prisma-binding@2.1.1
+
+create prisma.js 
+import { Prisma } from 'prisma-binding';
+
+const prisma = new Prisma({
+    typeDefs: '',
+    endpoint: 'http://localhost:4466',
+})
+
+endpoint: http://localhost:4466
+
+for typeDefs : it is complex, for this we need to introduce tool for that(npm module)
+it is common mistake to try to use the prisma datamodel.graphql file for value for typeDefs
+
+the tool is graphql-cli
+
+npm i graphql-cli@2.16.4
+which have get-schema command(option)
+
+once done we will create one file called ".graphqlconfig" and set-up the script in pacakge.json  
+
+for file ".graphqlconfig" we need to tell visual studio code that, this file should be tretead as json when it comes to 
+syntax higlighting and formating
+
+open command palate
+>Change language mode -> select JSON and not JSON(not json with comment).
+create generated folder inside src folder
+
+{
+    "projects": {
+        "prisma": {
+            "schemaPath": "src/generated/prisma.graphql",
+            "extensions": {
+                "endpoints": {
+                    "default": "http://localhost:4466"
+                }
+            }
+        }
+    }
+}
+
+and in prisma.js 
+import { Prisma } from 'prisma-binding';
+
+const prisma = new Prisma({
+    typeDefs: 'src/generated/prisma.graphql',
+    endpoint: 'localhost:4466',
+})
+
+now add 
+script in pacakge.json
+
+"get-schema":"graphql get-schema -p prisma"
+-p is for project name and it's value is project name which we have added in ".graphqlconfig" 
+for ex 
+ 
+{  
+    "projects": {
+        "prisma": {}
+    }
+}
+

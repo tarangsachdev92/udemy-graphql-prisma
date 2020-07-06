@@ -1,0 +1,157 @@
+# instead of commented code above it import the enum and we can assign it where needed
+# prisma/graphql-import/ which is in-build for grphql-yoga
+
+# import UserOrderByInput, PostOrderByInput, CommentOrderByInput from './generated/prisma.graphql'
+
+type Query {
+  users(
+    query: String
+    first: Int
+    skip: Int
+    after: String
+    orderBy: UserOrderByInput
+  ): [User!]!
+  posts(
+    query: String
+    first: Int
+    skip: Int
+    after: String
+    orderBy: PostOrderByInput
+  ): [Post!]!
+  myPosts(
+    query: String
+    first: Int
+    skip: Int
+    after: String
+    orderBy: PostOrderByInput
+  ): [Post!]!
+  comments(
+    query: String
+    first: Int
+    skip: Int
+    after: String
+    orderBy: CommentOrderByInput
+  ): [Comment!]!
+  post(id: ID!): Post!
+  me: User!
+}
+
+type Mutation {
+  createUser(data: createUserInput!): AuthPayload!
+  login(data: LoginUserInput!): AuthPayload!
+  # deleteUser(id: ID!): User!
+  # updateUser(id: ID!, data: updateUserInput!): User!
+  deleteUser: User!
+  updateUser(data: updateUserInput!): User!
+  createPost(data: createPostInput!): Post!
+  deletePost(id: ID!): Post!
+  updatePost(id: ID!, data: updatePostInput!): Post!
+  createComment(data: createCommentInput!): Comment!
+  deleteComment(id: ID!): Comment!
+  updateComment(id: ID!, data: updateCommentInput!): Comment!
+}
+
+type Subscription {
+  comment(postId: ID!): CommentSubscriptionPayload!
+  post: PostSubscriptionPayload!
+  myPost: PostSubscriptionPayload!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+input createUserInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+input updateUserInput {
+  name: String
+  email: String
+  password: String
+}
+
+type User {
+  id: ID!
+  name: String!
+  # email: String!
+  email: String
+  #remove ! because when you are firing me query then only email will be string othere wise for all users query we don't want
+  # to give email as we will give email : null;
+  password: String!
+  posts: [Post!]!
+  comments: [Comment!]!
+  updatedAt: String!
+  createdAt: String!
+}
+
+input createPostInput {
+  title: String!
+  body: String!
+  published: Boolean!
+  # author: ID!
+}
+
+input updatePostInput {
+  title: String
+  body: String
+  published: Boolean
+}
+
+type Post {
+  id: ID!
+  title: String!
+  body: String!
+  published: Boolean!
+  author: User!
+  comments: [Comment!]!
+  updatedAt: String!
+  createdAt: String!
+}
+
+input createCommentInput {
+  text: String!
+  # author: ID!
+  post: ID!
+}
+
+input updateCommentInput {
+  text: String
+}
+
+type Comment {
+  id: ID!
+  text: String!
+  author: User!
+  post: Post!
+  updatedAt: String!
+  createdAt: String!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
+}
+
+type PostSubscriptionPayload {
+  mutation: MutationType!
+  node: Post # prisma give node: Comment so we provide here to align that
+  # updatedFields: [String!]
+  # previousValues: Post
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  node: Comment # prisma give node: Comment so we provide here to align that
+  # updatedFields: [String!]
+  # previousValues: Comment
+}
