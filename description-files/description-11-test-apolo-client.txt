@@ -1,0 +1,13 @@
+create test.env file under config folder
+
+in test.env
+PRISMA_ENDPOINT=http://localhost:4466/default/test
+
+for dev.env 
+PRISMA_ENDPOINT=http://localhost:4466/default/default
+
+prisma deploy -e ../config/test.env
+
+http://localhost:4466/default/test?headers={%22Authorization%22:%22Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJkZWZhdWx0LmRlZmF1bHRAZGVmYXVsdCIsInJvbGVzIjpbImFkbWluIl19LCJpYXQiOjE1OTQwMzEzMTcsImV4cCI6MTU5NDYzNjExN30.v7ywdkQ3bjGUvl6cx7UAfwFjZk3amFSFXJOG2hzJhkY%22
+
+http://localhost:4466/default/default?headers={%22Authorization%22:%22Bearer%20eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJkZWZhdWx0QGRlZmF1bHQiLCJyb2xlcyI6WyJhZG1pbiJdfSwiaWF0IjoxNTk0MDMyMzI3LCJleHAiOjE1OTQ2MzcxMjd9.U72OKFOV_0nRFAqUSoEHleKzoN3yOKElcTfziM2WWDI%22}
