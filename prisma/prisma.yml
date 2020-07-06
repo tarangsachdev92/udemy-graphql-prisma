@@ -4,4 +4,4 @@
 endpoint: ${env:PRISMA_ENDPOINT}
 # endpoint: https://tarang-blog-app-5dfeada7e0.herokuapp.com/tarang-sachdev-blog-app/prod
 datamodel: datamodel.prisma
-secret: thisismysecrettext
+secret: ${env:PRISMA_SECRET}
