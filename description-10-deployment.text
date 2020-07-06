@@ -72,3 +72,7 @@ if we update anything in datamodel.prisma under prisma ->
     i) prisma deploy
     ii) npm run get-schema 
     iii) npm run dev / start
+
+also need to update below script
+
+"get-schema": "graphql get-schema -p prisma --dotenv config/dev.env"

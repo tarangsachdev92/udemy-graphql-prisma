@@ -9,7 +9,7 @@
     "dev": "env-cmd ./config/dev.env nodemon src/index.js --ext js,graphql --exec babel-node",
     "start-prod-local": "env-cmd ./config/prod.env node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "get-schema": "graphql get-schema -p prisma"
+    "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env"
   },
   "author": "",
   "license": "ISC",
