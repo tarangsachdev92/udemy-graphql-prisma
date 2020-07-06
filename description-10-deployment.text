@@ -5,13 +5,11 @@ Prisma Cloud -> manage heroku prisma instance
 2.host our prisma docker container - prisma cloud -> create server and database (heroku default)
 3.host our node.js application
 
-
 for host node js app
 1.git 
 2.heroku
 
 npm i -g heroku
-
 
 server.start({ port: process.env.PORT || 4000 }, () => {
     console.log('server is up and running')
@@ -46,3 +44,19 @@ import '@babel/polyfill';
 npm run heroku-postbuild
         and
 npm run start -> boom
+
+heroku create prisma-graphql-backend
+
+➜ heroku config:set PRISMA_ENDPOINT=https://tarang-blog-app-5dfeada7e0.herokuapp.com/tarang-sachdev-blog-app/prod
+➜ heroku config:set PRISMA_SECRET=anjdmehldfljfkd
+
+
+heroku config
+=== prisma-graphql-backend Config Vars
+PRISMA_ENDPOINT: https://tarang-blog-app-5dfeada7e0.herokuapp.com/tarang-sachdev-blog-app/prod
+PRISMA_SECRET:   anjdmehldfljfkd
+
+
+cd prisma
+
+prisma deploy -e ../config/dev.env

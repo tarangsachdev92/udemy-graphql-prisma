@@ -1,4 +1,5 @@
-import '@babel/polyfill';
+import '@babel/polyfill/noConflict'; // noConflict for if already uploaded then use that old othere wise import 
+// for dev server node-babel included that default we added above import only for production
 import { GraphQLServer, PubSub } from 'graphql-yoga'
 import db from './db';
 import { resolvers, fragmentReplacements } from './resolvers/index';
