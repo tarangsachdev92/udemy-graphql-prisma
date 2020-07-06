@@ -59,4 +59,16 @@ PRISMA_SECRET:   anjdmehldfljfkd
 
 cd prisma
 
-prisma deploy -e ../config/dev.env
+prisma deploy -e ../config/dev.env -> for dev 
+
+prisma deploy -e ../config/prod.env  -> for production
+
+here not need to generate schema as we only update the env file and prisma.yml file 
+if we changed into datamodel.prisma file under prisma folder than only we need to deploy first prisma and after that 
+generate that file and after that we need to run build for the node app
+
+so steps :
+if we update anything in datamodel.prisma under prisma -> 
+    i) prisma deploy
+    ii) npm run get-schema 
+    iii) npm run dev / start
