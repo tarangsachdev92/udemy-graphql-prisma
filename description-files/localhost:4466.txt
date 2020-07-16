@@ -1,0 +1,99 @@
+prisma token -e ../config/dev.env
+
+query {
+  users {
+    name id email posts{
+      id title
+    }
+  }
+}
+
+mutation{
+  createUser(data:{name:"karishma" email:"karishma@gmail.com"}){
+    id name
+  }
+}
+
+# mutation{
+#   updateUser(where:{
+#     id:"ckc0iyejf00pq0820z72j0x1y"
+#   },data:{
+#     name:"shaym parekh" email:"parekhshyam007@gmail.com"
+#   }){
+#     name id
+#   }
+# }
+
+mutation{
+  deleteUser(where:{id:"ckc0iyejf00pq0820z72j0x1y"}){
+    id
+  }
+}
+
+mutation {
+  createPost(
+    data: {
+      title: "this is the eightth title"
+      body: "body of the post"
+      published: true
+      author: { connect: { id: "ckc8wo7ea004g0833hc7zviab" } }
+    }
+  ) {
+    body
+    id
+    published
+    title
+    author {
+      name
+      id
+    }
+  }
+}
+
+
+mutation {
+  updatePost(
+    data: { published:true }
+    where: { id: "ckbyvk5m500ai0820lgp4iwi4" }
+  ) {
+    id
+    title
+    body
+    published
+  }
+}
+
+
+
+mutation {
+  createComment(
+    data: {
+      text: "This is the comment"
+      author: { connect: { id: "ckc24ehkj025p0733zmyf4e3u" } }
+      post: { connect: { id: "ckc24gf1h026707337fzpg4v2" } }
+    }
+  ) {
+    id
+    text
+    author {
+      name
+      id
+    }
+    post {
+      title
+    }
+  }
+}
+
+
+query{
+  comments{
+    text id author{id name} post{title}
+  }
+} 
+
+ query{
+  posts{
+    id title body author {id name}
+  }
+}

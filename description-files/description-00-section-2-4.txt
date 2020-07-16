@@ -72,7 +72,7 @@ instead of
 //     createUser(name: String!, email: String!, age:Int): User!
 
 we do
-//        createUser(data: createUserInput): User!
+//        createUser(data: CreateUserInput): User!
 
 // here we can only provide input which have only scaler values , so we can not do createUser(data: User)
 
@@ -87,7 +87,7 @@ type User {
         comments: [Comment!]!
 }
   
-input createUserInput {
+input CreateUserInput {
         name: String!
         email: String!
         age:Int

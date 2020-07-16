@@ -37,18 +37,18 @@ type Query {
 }
 
 type Mutation {
-  createUser(data: createUserInput!): AuthPayload!
+  createUser(data: CreateUserInput!): AuthPayload!
   login(data: LoginUserInput!): AuthPayload!
   # deleteUser(id: ID!): User!
-  # updateUser(id: ID!, data: updateUserInput!): User!
+  # updateUser(id: ID!, data: UpdateUserInput!): User!
   deleteUser: User!
-  updateUser(data: updateUserInput!): User!
-  createPost(data: createPostInput!): Post!
+  updateUser(data: UpdateUserInput!): User!
+  createPost(data: CreatePostInput!): Post!
   deletePost(id: ID!): Post!
-  updatePost(id: ID!, data: updatePostInput!): Post!
-  createComment(data: createCommentInput!): Comment!
+  updatePost(id: ID!, data: UpdatePostInput!): Post!
+  createComment(data: CreateCommentInput!): Comment!
   deleteComment(id: ID!): Comment!
-  updateComment(id: ID!, data: updateCommentInput!): Comment!
+  updateComment(id: ID!, data: UpdateCommentInput!): Comment!
 }
 
 type Subscription {
@@ -62,7 +62,7 @@ type AuthPayload {
   user: User!
 }
 
-input createUserInput {
+input CreateUserInput {
   name: String!
   email: String!
   password: String!
@@ -73,7 +73,7 @@ input LoginUserInput {
   password: String!
 }
 
-input updateUserInput {
+input UpdateUserInput {
   name: String
   email: String
   password: String
@@ -93,14 +93,14 @@ type User {
   createdAt: String!
 }
 
-input createPostInput {
+input CreatePostInput {
   title: String!
   body: String!
   published: Boolean!
   # author: ID!
 }
 
-input updatePostInput {
+input UpdatePostInput {
   title: String
   body: String
   published: Boolean
@@ -117,13 +117,13 @@ type Post {
   createdAt: String!
 }
 
-input createCommentInput {
+input CreateCommentInput {
   text: String!
   # author: ID!
   post: ID!
 }
 
-input updateCommentInput {
+input UpdateCommentInput {
   text: String
 }
 

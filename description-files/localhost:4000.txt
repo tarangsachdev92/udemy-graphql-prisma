@@ -1,0 +1,95 @@
+
+{
+  "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJja2M4d283ZWEwMDRnMDgzM2hjN3p2aWFiIiwiaWF0IjoxNTk0ODk1MzQyLCJleHAiOjE1OTQ5ODE3NDJ9.ieIAYoZZiahDXe4BqGjAEjSmagFOlwvRbFmqWHChMh0"
+}
+
+mutation {
+  login(data: { email: "tarangsachdev@gmail.com", password: "Tarang@123" }) {
+    user {
+      id
+      name
+    }
+    token
+  }
+}
+
+query{
+  users{
+    id name email
+  }
+}
+
+query{
+  users{
+    id name email
+  }
+}
+
+query{
+  users(orderBy:name_DESC){
+    id name email
+  }
+}
+
+query{
+  me{
+    id name email
+  }
+}
+
+mutation{
+  createUser(data:{name:"Test",email:"test@example.com",password:"Test@123"}){
+    user{id name email}
+    token
+  }
+}
+
+query{
+  posts(orderBy:id_ASC){
+    id title
+  }
+}
+
+query{
+  myPosts(orderBy:id_ASC){
+    id title published
+  }
+}
+
+mutation{
+  createPost(data:{title:"Test",body:"Tst",published:false}){
+    id title body
+  }
+}
+
+mutation {
+  updatePost(
+    id: "ckconubps01570833xj1jeko1"
+    data: { title: "Test", body: "Tst", published: true }
+  ) {
+    id
+    title
+    body
+  }
+}
+
+mutation {
+  deletePost(id: "ckconubps01570833xj1jeko1"){
+     id title
+  }
+}
+
+subscription{
+  comment(postId:""){
+    mutation node{id text}
+  }
+}
+
+subscription{
+  post{
+    mutation node{title id}
+  }
+}
+
+
+

@@ -1,0 +1,93 @@
+
+npm install jest@23.5.0 --only=dev
+
+create two files under tests/jest 
+1/globalSetup.js
+2/globalTeardown.js
+
+now use that file into package.json
+
+"jest": {
+    "globalSetup": "./tests/jest/globalSetup.js",
+    "globalTeardown": "./tests/jest/globalTeardown.js"
+  },
+
+-create server.js and move all server related code from idnex.js file to server.js
+=> because we need to use server running when our test run (globalSetup)
+
+npm install babel-register@6.26.0
+
+now inside of the files(globalSetup and globalTearDown) ->
+
+globalSetup.js
+\=====================================================================
+require("babel-register");
+require("@babel/polyfill/noConflict");
+const server = require('../../src/server').default
+module.exports = async () => {
+    global.httpServer = await server.start({ port: 4000 })
+}
+\=====================================================================
+
+2.inside globalTearDown.js
+\=====================================================================
+module.exports = async () => {
+    global.httpServer.close()
+}
+\=====================================================================
+
+npm i apollo-boost@0.1.14 graphql@14.0.2 cross-fetch@2.2.2
+
+for subscription test
+https://gist.github.com/andrewjmead/acdd7bc29d853f8d7a8962d6a1d9ae5a
+
+
+links.mead.io/testideas
+
+https://gist.github.com/andrewjmead/b1a4ad4cba8623b9b06fbdd5a8e4fdb8
+
+// ---------------
+// User
+// ---------------
+
+// Should not signup a user with email that is already in use
+
+// Should login and provide authentication token
+
+// Should reject me query without authentication
+
+// Should hide emails when fetching list of users
+
+// ---------------
+// Post
+// ---------------
+
+// Should not be able to update another users post
+
+// Should not be able to delete another users post
+
+// Should require authentication to create a post (could add for update and delete too)
+
+// Should fetch published post by id 
+
+// Should fetch own post by id
+
+// Should not fetch draft post from other user
+
+// ---------------
+// Comment
+// ---------------
+
+// Should fetch post comments
+
+// Should create a new comment
+
+// Should not create comment on draft post
+
+// Should update comment
+
+// Should not update another users comment
+
+// Should not delete another users comment
+
+// Should require authentication to create a comment (could add for update and delete too)
