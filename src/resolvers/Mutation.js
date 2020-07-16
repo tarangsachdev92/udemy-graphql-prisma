@@ -49,6 +49,8 @@ const Mutation = {
             // }, info)
         })
 
+        // we remove info because we are returning token and it is not in definition
+
         return { user, token: generateToken(user.id) }
     },
 
